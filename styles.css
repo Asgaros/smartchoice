@@ -1,0 +1,53 @@
+.path-mod-smartchoice .results {border-collapse: separate;}
+.path-mod-smartchoice .results .data {vertical-align:top;white-space: nowrap;}
+.path-mod-smartchoice .button {text-align:center;}
+.path-mod-smartchoice .attemptcell {width:5px;white-space: nowrap;}
+.path-mod-smartchoice .anonymous,
+.path-mod-smartchoice .names {margin-left:auto;margin-right:auto; width:80%;}
+.path-mod-smartchoice .downloadreport {border-width:0;margin-left:10%;}
+.path-mod-smartchoice .choiceresponse {width:100%;}
+.path-mod-smartchoice .choiceresponse .fullname {width:100%;white-space: nowrap;}
+
+.path-mod-smartchoice .responseheader {width: 100%; text-align: center; margin-top: 10px;}
+.path-mod-smartchoice .choices .option label {vertical-align: top;}
+.path-mod-smartchoice .choices .option input {vertical-align: middle;}
+
+.path-mod-smartchoice .vertical {margin-left: 10%;margin-right: 10%;}
+.path-mod-smartchoice ul.choices li {list-style:none;}
+.path-mod-smartchoice .results { text-align: center;}
+
+.path-mod-smartchoice .results.anonymous .graph.vertical,
+.path-mod-smartchoice .cell {vertical-align: bottom; text-align: center; }
+.path-mod-smartchoice .results.anonymous th.header {border: 1px solid inherit;}
+
+.path-mod-smartchoice .results.names .header{width:10%; white-space: normal;}
+.path-mod-smartchoice .results.names .cell{vertical-align: top; text-align: left;}
+.path-mod-smartchoice .results.names .user {padding: 5px;}
+.path-mod-smartchoice .results.names .user .attemptaction,
+.path-mod-smartchoice .results.names .user .image,
+.path-mod-smartchoice .results.names .user .fullname{float:left;}
+.path-mod-smartchoice .results.names .user .fullname{padding-left: 5px;}
+.path-mod-smartchoice .results .data.header {width: 10%;}
+.path-mod-smartchoice .responseaction {text-align: center;}
+.path-mod-smartchoice .results .option {white-space: normal;}
+.path-mod-smartchoice .response {overflow: auto;}
+.path-mod-smartchoice .results .option,
+.path-mod-smartchoice .results .numberofvotes,
+.path-mod-smartchoice .results .percentage {font-weight: bold; font-size: 108%;}
+
+#page-mod-smartchoice-report .downloadreport ul li {list-style:none;padding: 0 20px; display: inline;float: left; }
+.path-mod-smartchoice .clearfloat {float:none; clear:both;}
+
+/**
+ * Override for RTL layout
+ */
+.path-mod-smartchoice.dir-rtl .results.anonymous { text-align: center; }
+.path-mod-smartchoice.dir-rtl .results.names .cell{text-align: right;}
+.path-mod-smartchoice.dir-rtl .results.names .user .attemptaction,
+.path-mod-smartchoice.dir-rtl .results.names .user .image,
+.path-mod-smartchoice.dir-rtl .results.names .user .fullname,
+.path-mod-smartchoice.dir-rtl .results.names .user .fullname{padding-left: 0px; padding-right: 5px;}
+.path-mod-smartchoice.dir-rtl .downloadreport {margin-left:0;margin-right: 25%;}
+
+#page-mod-smartchoice-report.dir-rtl .downloadreport ul li{float:right;}
+#page-mod-smartchoice-view.dir-rtl .reportlink {text-align: left;}
