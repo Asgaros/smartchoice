@@ -6,12 +6,12 @@ $string['cannotsubmit'] = 'Sorry, there was a problem submitting your choice. Pl
 $string['expired'] = 'Sorry, this activity closed on {$a} and is no longer available';
 $string['atleastoneoption'] = 'You need to provide at least one possible answer.';
 $string['smartchoice'] = 'smartchoice';
-$string['choiceactivityname'] = 'Choice: {$a}';
-$string['choice:addinstance'] = 'Add a new choice';
+$string['choiceactivityname'] = 'Smartchoice: {$a}';
+$string['smartchoice:addinstance'] = 'Add a new choice';
 $string['choiceclose'] = 'Until';
-$string['choice:deleteresponses'] = 'Delete responses';
-$string['choice:downloadresponses'] = 'Download responses';
-$string['choice:choose'] = 'Record a choice';
+$string['smartchoice:deleteresponses'] = 'Delete responses';
+$string['smartchoice:downloadresponses'] = 'Download responses';
+$string['smartchoice:choose'] = 'Record a choice';
 $string['youcantvote'] = 'Sorry, but you cant vote.';
 $string['choicecloseson'] = 'Choice closes on {$a}';
 $string['choicequestion'] = 'Choice question';
@@ -20,7 +20,7 @@ $string['choiceoptions'] = 'Choice options';
 $string['choiceoptions_help'] = 'Here is where you specify the options that participants have to choose from.
 
 You can fill in any number of these. If you leave some of the options blank, they will not be displayed.';
-$string['choice:readresponses'] = 'View responses';
+$string['smartchoice:readresponses'] = 'View responses';
 $string['choicesaved'] = 'Your choice has been saved';
 $string['choicetext'] = 'Choice text';
 $string['description'] = 'Description';
