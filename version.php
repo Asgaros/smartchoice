@@ -19,3 +19,5 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->version   = 2016102600;    // The current module version
 $plugin->requires  = 2015111600;    // Required Moodle version
 $plugin->component = 'mod_smartchoice';  // Full name of the plugin
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = 'v1.0.0';
