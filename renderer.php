@@ -14,19 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 class mod_smartchoice_renderer extends plugin_renderer_base {
-    // Returns HTML to display choices of option
+    // Returns HTML to display choices of option.
     public function display_options($options, $coursemoduleid, $multiple = false) {
         $target = new moodle_url('/mod/smartchoice/view.php');
-        $attributes = array('method'=>'POST', 'action'=>$target, 'class'=> 'vertical');
+        $attributes = array('method' => 'POST', 'action' => $target, 'class' => 'vertical');
 
         $html = html_writer::start_tag('form', $attributes);
-        $html .= html_writer::start_tag('ul', array('class'=>'choices' ));
+        $html .= html_writer::start_tag('ul', array('class' => 'choices' ));
 
         $choicecount = 0;
         foreach ($options['options'] as $option) {
             $choicecount++;
-            $html .= html_writer::start_tag('li', array('class'=>'option'));
+            $html .= html_writer::start_tag('li', array('class' => 'option'));
             if ($multiple) {
                 $option->attributes->name = 'answer[]';
                 $option->attributes->type = 'checkbox';
@@ -39,23 +41,30 @@ class mod_smartchoice_renderer extends plugin_renderer_base {
             $labeltext = $option->text;
 
             $html .= html_writer::empty_tag('input', (array)$option->attributes);
-            $html .= html_writer::tag('label', $labeltext, array('for'=>$option->attributes->id));
+            $html .= html_writer::tag('label', $labeltext, array('for' => $option->attributes->id));
             $html .= html_writer::end_tag('li');
         }
-        $html .= html_writer::tag('li','', array('class'=>'clearfloat'));
+        $html .= html_writer::tag('li', '', array('class' => 'clearfloat'));
         $html .= html_writer::end_tag('ul');
-        $html .= html_writer::tag('div', '', array('class'=>'clearfloat'));
-        $html .= html_writer::empty_tag('input', array('type'=>'hidden', 'name'=>'sesskey', 'value'=>sesskey()));
-        $html .= html_writer::empty_tag('input', array('type'=>'hidden', 'name'=>'action', 'value'=>'makechoice'));
-        $html .= html_writer::empty_tag('input', array('type'=>'hidden', 'name'=>'id', 'value'=>$coursemoduleid));
-        $html .= html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('savemychoice', 'smartchoice'), 'class' => 'button'));
+        $html .= html_writer::tag('div', '', array('class' => 'clearfloat'));
+        $html .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()));
+        $html .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'action', 'value' => 'makechoice'));
+        $html .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => 'id', 'value' => $coursemoduleid));
+        $html .= html_writer::empty_tag(
+            'input',
+            array(
+                'type' => 'submit',
+                'value' => get_string('savemychoice', 'smartchoice'),
+                'class' => 'button'
+            )
+        );
         $html .= html_writer::end_tag('ul');
         $html .= html_writer::end_tag('form');
 
         return $html;
     }
 
-    // Returns HTML to display choices result
+    // Returns HTML to display choices result.
     public function display_publish_anonymous_vertical($choices) {
         if (empty($choices)) {
             return;
@@ -76,67 +85,82 @@ class mod_smartchoice_renderer extends plugin_renderer_base {
         $headercelldefault = new html_table_cell();
         $headercelldefault->scope = 'row';
         $headercelldefault->header = true;
-        $headercelldefault->attributes = array('class'=>'header data');
+        $headercelldefault->attributes = array('class' => 'header data');
 
-        // column header
+        // Column header.
         $tableheader = clone($headercelldefault);
         $tableheader->text = html_writer::tag('div', get_string('choiceoptions', 'smartchoice'), array('class' => 'accesshide'));
         $rows['header'][] = $tableheader;
 
-        // graph row header
+        // Graph row header.
         $graphheader = clone($headercelldefault);
-        $graphheader->text = html_writer::tag('div', get_string('responsesresultgraphheader', 'smartchoice'), array('class' => 'accesshide'));
+        $graphheader->text = html_writer::tag(
+            'div',
+            get_string('responsesresultgraphheader', 'smartchoice'),
+            array('class' => 'accesshide')
+        );
         $rows['graph'][] = $graphheader;
 
-        // user number row header
+        // User number row header.
         $usernumberheader = clone($headercelldefault);
         $usernumberheader->text = get_string('numberofvotes', 'smartchoice');
         $rows['usernumber'][] = $usernumberheader;
 
-        // user percentage row header
+        // User percentage row header.
         $userpercentageheader = clone($headercelldefault);
         $userpercentageheader->text = get_string('numberofvotesinpercentage', 'smartchoice');
         $rows['userpercentage'][] = $userpercentageheader;
 
         $contentcelldefault = new html_table_cell();
-        $contentcelldefault->attributes = array('class'=>'data');
+        $contentcelldefault->attributes = array('class' => 'data');
 
         foreach ($choices->options as $optionid => $option) {
-            // calculate display length
+            // Calculate display length.
             $height = $percentageamount = $numberofvotes = 0;
             $usernumber = $userpercentage = '';
 
             if (!empty($option->user)) {
-               $numberofvotes = count($option->user);
+                $numberofvotes = count($option->user);
             }
 
-            if($choices->numberofvotes > 0) {
-               $height = (300 * ((float)$numberofvotes / (float)$choices->numberofvotes));
-               $percentageamount = ((float)$numberofvotes/(float)$choices->numberofvotes)*100.0;
+            if ($choices->numberofvotes > 0) {
+                $height = (300 * ((float)$numberofvotes / (float)$choices->numberofvotes));
+                $percentageamount = ((float)$numberofvotes / (float)$choices->numberofvotes) * 100.0;
             }
 
-            $displaygraph = html_writer::tag('img','', array('style'=>'height:'.$height.'px;width:49px;', 'alt'=>'', 'src'=>$this->output->pix_url('column', 'smartchoice')));
+            $displaygraph = html_writer::tag(
+                'img',
+                '',
+                array(
+                    'style' => 'height:'.$height.'px;width:49px;',
+                    'alt' => '',
+                    'src' => $this->output->pix_url('column', 'smartchoice'))
+            );
 
-            // header
+            // Header.
             $headercell = clone($contentcelldefault);
             $headercell->text = $option->text;
             $rows['header'][] = $headercell;
 
-            // Graph
+            // Graph.
             $graphcell = clone($contentcelldefault);
-            $graphcell->attributes = array('class'=>'graph vertical data');
+            $graphcell->attributes = array('class' => 'graph vertical data');
             $graphcell->text = $displaygraph;
             $rows['graph'][] = $graphcell;
 
-            $usernumber .= html_writer::tag('div', ' '.$numberofvotes.'', array('class'=>'numberofvotes', 'title'=> get_string('numberofvotes', 'smartchoice')));
-            $userpercentage .= html_writer::tag('div', format_float($percentageamount,1). '%', array('class'=>'percentage'));
+            $usernumber .= html_writer::tag(
+                'div',
+                ' '.$numberofvotes.'',
+                array('class' => 'numberofvotes', 'title' => get_string('numberofvotes', 'smartchoice'))
+            );
+            $userpercentage .= html_writer::tag('div', format_float($percentageamount, 1). '%', array('class' => 'percentage'));
 
-            // number of user
+            // Number of user.
             $usernumbercell = clone($contentcelldefault);
             $usernumbercell->text = $usernumber;
             $rows['usernumber'][] = $usernumbercell;
 
-            // percentage of user
+            // Percentage of user.
             $numbercell = clone($contentcelldefault);
             $numbercell->text = $userpercentage;
             $rows['userpercentage'][] = $numbercell;
@@ -148,9 +172,9 @@ class mod_smartchoice_renderer extends plugin_renderer_base {
         $truserpercentage = new html_table_row($rows['userpercentage']);
         $table->data = array($trgraph, $trusernumber, $truserpercentage);
 
-        $header = html_writer::tag('h3',format_string(get_string("responses", "smartchoice")));
-        $html .= html_writer::tag('div', $header, array('class'=>'responseheader'));
-        $html .= html_writer::tag('div', html_writer::table($table), array('class'=>'response'));
+        $header = html_writer::tag('h3', format_string(get_string("responses", "smartchoice")));
+        $html .= html_writer::tag('div', $header, array('class' => 'responseheader'));
+        $html .= html_writer::tag('div', html_writer::table($table), array('class' => 'response'));
 
         return $html;
     }

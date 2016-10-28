@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// Strings for component 'smartchoice', language 'en'
+// Strings for component 'smartchoice', language 'en'.
 $string['allowmultiple'] = 'Allow the selection of multiple answers.';
 $string['cannotsubmit'] = 'Sorry, there was a problem submitting your choice. Please try again.';
 $string['expired'] = 'Sorry, this activity closed on {$a} and is no longer available';

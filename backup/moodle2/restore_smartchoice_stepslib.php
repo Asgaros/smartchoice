@@ -14,11 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Define all the restore steps that will be used by the restore_smartchoice_activity_task
  */
 
-// Structure step to restore one choice activity
+// Structure step to restore one choice activity.
 class restore_smartchoice_activity_structure_step extends restore_activity_structure_step {
     protected function define_structure() {
         $paths = array();
@@ -30,7 +32,7 @@ class restore_smartchoice_activity_structure_step extends restore_activity_struc
             $paths[] = new restore_path_element('smartchoice_answer', '/activity/smartchoice/answers/answer');
         }
 
-        // Return the paths wrapped into standard activity structure
+        // Return the paths wrapped into standard activity structure.
         return $this->prepare_activity_structure($paths);
     }
 
@@ -43,9 +45,9 @@ class restore_smartchoice_activity_structure_step extends restore_activity_struc
         $data->timeopen = $this->apply_date_offset($data->timeopen);
         $data->timeclose = $this->apply_date_offset($data->timeclose);
 
-        // insert the choice record
+        // Insert the choice record.
         $newitemid = $DB->insert_record('smartchoice', $data);
-        // immediately after inserting "activity" record, call this
+        // Immediately after inserting "activity" record, call this.
         $this->apply_activity_instance($newitemid);
     }
 
@@ -67,7 +69,7 @@ class restore_smartchoice_activity_structure_step extends restore_activity_struc
     }
 
     protected function after_execute() {
-        // Add choice related files, no need to match by itemname (just internally handled context)
+        // Add choice related files, no need to match by itemname (just internally handled context).
         $this->add_related_files('mod_smartchoice', 'description', null);
     }
 }

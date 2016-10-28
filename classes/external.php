@@ -19,7 +19,7 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir.'/externallib.php');
 require_once($CFG->dirroot.'/mod/smartchoice/lib.php');
 
-// Choice module external functions
+// Choice module external functions.
 class mod_smartchoice_external extends external_api {
     // Returns results for a specific choice.
     public static function get_choice_results($choiceid) {
@@ -34,8 +34,8 @@ class mod_smartchoice_external extends external_api {
         $context = context_module::instance($cm->id);
         self::validate_context($context);
 
-        $response_data = smartchoice_get_response_data($choice);
-        $results = prepare_smartchoice_show_results($choice, $course, $cm, $response_data);
+        $responseData = smartchoice_get_response_data($choice);
+        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
 
         $options = array();
         foreach ($results->options as $optionid => $option) {
@@ -84,7 +84,7 @@ class mod_smartchoice_external extends external_api {
         );
     }
 
-    // Returns options for a specific choice
+    // Returns options for a specific choice.
     public static function get_choice_options($choiceid) {
         $warnings = array();
         $params = self::validate_parameters(self::get_choice_options_parameters(), array('choiceid' => $choiceid));
@@ -97,7 +97,7 @@ class mod_smartchoice_external extends external_api {
         $context = context_module::instance($cm->id);
         self::validate_context($context);
 
-        $response_data = smartchoice_get_response_data($choice);
+        $responseData = smartchoice_get_response_data($choice);
 
         $timenow = time();
         $choiceopen = true;
@@ -117,7 +117,7 @@ class mod_smartchoice_external extends external_api {
         $optionsarray = array();
 
         if ($choiceopen) {
-            $options = smartchoice_prepare_options($choice, $response_data);
+            $options = smartchoice_prepare_options($choice, $responseData);
 
             foreach ($options['options'] as $option) {
                 $optionarr = array();
@@ -164,10 +164,13 @@ class mod_smartchoice_external extends external_api {
         );
     }
 
-    // Submit choice responses
+    // Submit choice responses.
     public static function submit_choice_response($choiceid, $responses) {
         $warnings = array();
-        $params = self::validate_parameters(self::submit_choice_response_parameters(), array('choiceid' => $choiceid, 'responses' => $responses));
+        $params = self::validate_parameters(
+            self::submit_choice_response_parameters(),
+            array('choiceid' => $choiceid, 'responses' => $responses)
+        );
 
         if (!$choice = smartchoice_get_choice($params['choiceid'])) {
             throw new moodle_exception('invalidcoursemodule', 'error');
@@ -223,7 +226,8 @@ class mod_smartchoice_external extends external_api {
         );
     }
 
-    // Returns a list of choices in a provided list of courses, if no list is provided all choices that the user can view will be returned.
+    // Returns a list of choices in a provided list of courses, if no
+    // list is provided all choices that the user can view will be returned.
     public static function get_choices_by_courses($courseids = array()) {
         $returnedchoices = array();
         $warnings = array();

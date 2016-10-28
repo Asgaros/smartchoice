@@ -17,7 +17,7 @@
 require_once('../../config.php');
 require_once('lib.php');
 
-$id         = required_param('id', PARAM_INT);   //moduleid
+$id         = required_param('id', PARAM_INT);
 $download   = optional_param('download', '', PARAM_ALPHA);
 $action     = optional_param('action', '', PARAM_ALPHA);
 
@@ -62,27 +62,31 @@ if (!$download) {
     echo $OUTPUT->heading($choice->name, 2, null);
 }
 
-$response_data = smartchoice_get_response_data($choice);
+$responseData = smartchoice_get_response_data($choice);
 
 if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $context)) {
     require_once("$CFG->libdir/odslib.class.php");
 
-    $filename = clean_filename("$course->shortname ".strip_tags(format_string($choice->name,true))).'.ods';
+    $filename = clean_filename("$course->shortname ".strip_tags(format_string($choice->name, true))).'.ods';
     $workbook = new MoodleODSWorkbook("-");
     $workbook->send($filename);
     $myxls = $workbook->add_worksheet($strresponses);
 
-    // Print names of all the fields
-    $myxls->write_string(0,0,get_string("smartchoice","smartchoice"));
+    // Print names of all the fields.
+    $myxls->write_string(0, 0, get_string("smartchoice", "smartchoice"));
 
-    $row=1;
-    if ($response_data) {
-        $results = prepare_smartchoice_show_results($choice, $course, $cm, $response_data);
+    $row = 1;
+    if ($responseData) {
+        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
 
         if ($results) {
-            $myxls->write_string($row,0,format_string($results->name,true));
+            $myxls->write_string($row, 0, format_string($results->name, true));
             $row++;
-            $myxls->write_string($row,0,format_string(get_string('numberofvotes', 'smartchoice').': '.$results->numberofvotes, true));
+            $myxls->write_string(
+                $row,
+                0,
+                format_string(get_string('numberofvotes', 'smartchoice').': '.$results->numberofvotes, true)
+            );
             $row++;
             $row++;
 
@@ -91,8 +95,16 @@ if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $c
             if ($summary) {
                 foreach ($summary as $option) {
                     $myxls->write_string($row, 0, format_string($option['text'], true));
-                    $myxls->write_string($row, 1, format_string(get_string('numberofvotes', 'smartchoice').': '.$option['votes'], true));
-                    $myxls->write_string($row, 2, format_string(get_string('numberofvotesinpercentage', 'smartchoice').': '.$option['percentage'], true));
+                    $myxls->write_string(
+                        $row,
+                        1,
+                        format_string(get_string('numberofvotes', 'smartchoice').': '.$option['votes'], true)
+                    );
+                    $myxls->write_string(
+                        $row,
+                        2,
+                        format_string(get_string('numberofvotesinpercentage', 'smartchoice').': '.$option['percentage'], true)
+                    );
                     $row++;
                 }
             }
@@ -111,17 +123,21 @@ if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $c
     $workbook->send($filename);
     $myxls = $workbook->add_worksheet($strresponses);
 
-    // Print names of all the fields
+    // Print names of all the fields.
     $myxls->write_string(0, 0, get_string('smartchoice', 'smartchoice'));
 
-    $row=1;
-    if ($response_data) {
-        $results = prepare_smartchoice_show_results($choice, $course, $cm, $response_data);
+    $row = 1;
+    if ($responseData) {
+        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
 
         if ($results) {
-            $myxls->write_string($row,0,format_string($results->name,true));
+            $myxls->write_string($row, 0, format_string($results->name, true));
             $row++;
-            $myxls->write_string($row,0,format_string(get_string('numberofvotes', 'smartchoice').': '.$results->numberofvotes, true));
+            $myxls->write_string(
+                $row,
+                0,
+                format_string(get_string('numberofvotes', 'smartchoice').': '.$results->numberofvotes, true)
+            );
             $row++;
             $row++;
 
@@ -130,29 +146,40 @@ if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $c
             if ($summary) {
                 foreach ($summary as $option) {
                     $myxls->write_string($row, 0, format_string($option['text'], true));
-                    $myxls->write_string($row, 1, format_string(get_string('numberofvotes', 'smartchoice').': '.$option['votes'], true));
-                    $myxls->write_string($row, 2, format_string(get_string('numberofvotesinpercentage', 'smartchoice').': '.$option['percentage'], true));
+                    $myxls->write_string(
+                        $row,
+                        1,
+                        format_string(get_string('numberofvotes', 'smartchoice').': '.$option['votes'], true)
+                    );
+                    $myxls->write_string(
+                        $row,
+                        2,
+                        format_string(
+                            get_string('numberofvotesinpercentage', 'smartchoice').': '.$option['percentage'],
+                            true
+                        )
+                    );
                     $row++;
                 }
             }
         }
     }
 
-    // Close the workbook
+    // Close the workbook.
     $workbook->close();
     exit;
 } else if ($download == "txt" && has_capability('mod/smartchoice:downloadresponses', $context)) {
-    $filename = clean_filename("$course->shortname ".strip_tags(format_string($choice->name,true))).'.txt';
+    $filename = clean_filename("$course->shortname ".strip_tags(format_string($choice->name, true))).'.txt';
 
     header("Content-Type: application/octet-stream\n");
     header("Content-Disposition: attachment; filename=\"$filename\"");
     header("Expires: 0");
     header("Cache-Control: must-revalidate,post-check=0,pre-check=0");
 
-    echo get_string("smartchoice","smartchoice"). "\r\n\r\n";
+    echo get_string("smartchoice", "smartchoice"). "\r\n\r\n";
 
-    if ($response_data) {
-        $results = prepare_smartchoice_show_results($choice, $course, $cm, $response_data);
+    if ($responseData) {
+        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
 
         if ($results) {
             echo $results->name."\r\n";
@@ -172,29 +199,29 @@ if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $c
     exit;
 }
 
-$results = prepare_smartchoice_show_results($choice, $course, $cm, $response_data);
+$results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
 $renderer = $PAGE->get_renderer('mod_smartchoice');
 echo $renderer->display_publish_anonymous_vertical($results);
 
-// Generate download links
-if (!empty($response_data) && has_capability('mod/smartchoice:downloadresponses',$context)) {
+// Generate download links.
+if (!empty($responseData) && has_capability('mod/smartchoice:downloadresponses', $context)) {
     $downloadoptions = array();
     $options = array();
     $options["id"] = "$cm->id";
     $options["download"] = "ods";
-    $button =  $OUTPUT->single_button(new moodle_url("report.php", $options), get_string("downloadods"));
-    $downloadoptions[] = html_writer::tag('li', $button, array('class'=>'reportoption'));
+    $button = $OUTPUT->single_button(new moodle_url("report.php", $options), get_string("downloadods"));
+    $downloadoptions[] = html_writer::tag('li', $button, array('class' => 'reportoption'));
 
     $options["download"] = "xls";
     $button = $OUTPUT->single_button(new moodle_url("report.php", $options), get_string("downloadexcel"));
-    $downloadoptions[] = html_writer::tag('li', $button, array('class'=>'reportoption'));
+    $downloadoptions[] = html_writer::tag('li', $button, array('class' => 'reportoption'));
 
     $options["download"] = "txt";
     $button = $OUTPUT->single_button(new moodle_url("report.php", $options), get_string("downloadtext"));
-    $downloadoptions[] = html_writer::tag('li', $button, array('class'=>'reportoption'));
+    $downloadoptions[] = html_writer::tag('li', $button, array('class' => 'reportoption'));
 
     $downloadlist = html_writer::tag('ul', implode('', $downloadoptions));
-    $downloadlist .= html_writer::tag('div', '', array('class'=>'clearfloat'));
-    echo html_writer::tag('div',$downloadlist, array('class'=>'downloadreport'));
+    $downloadlist .= html_writer::tag('div', '', array('class' => 'clearfloat'));
+    echo html_writer::tag('div', $downloadlist, array('class' => 'downloadreport'));
 }
 echo $OUTPUT->footer();

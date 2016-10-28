@@ -18,7 +18,6 @@
 
 .path-mod-smartchoice .results.anonymous .graph.vertical,
 .path-mod-smartchoice .cell {vertical-align: bottom; text-align: center; }
-.path-mod-smartchoice .results.anonymous th.header {border: 1px solid inherit;}
 
 .path-mod-smartchoice .results.names .header{width:10%; white-space: normal;}
 .path-mod-smartchoice .results.names .cell{vertical-align: top; text-align: left;}
@@ -35,7 +34,7 @@
 .path-mod-smartchoice .results .numberofvotes,
 .path-mod-smartchoice .results .percentage {font-weight: bold; font-size: 108%;}
 
-#page-mod-smartchoice-report .downloadreport ul li {list-style:none;padding: 0 20px; display: inline;float: left; }
+#page-mod-smartchoice-report .downloadreport ul li {list-style:none;padding: 0 20px; float: left; }
 .path-mod-smartchoice .clearfloat {float:none; clear:both;}
 
 /**

@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 // This function will create a new smartchoice instance and return the id number of it.
 function smartchoice_add_instance($choice) {
     global $DB;
@@ -25,7 +27,7 @@ function smartchoice_add_instance($choice) {
 
     $choice->id = $DB->insert_record('smartchoice', $choice);
 
-    // Insert answers
+    // Insert answers.
     foreach ($choice->option as $key => $value) {
         $value = trim($value);
 
@@ -51,7 +53,7 @@ function smartchoice_update_instance($choice) {
         $choice->timeclose = 0;
     }
 
-    // Update, delete or insert answers
+    // Update, delete or insert answers.
     foreach ($choice->option as $key => $value) {
         $value = trim($value);
         $option = new stdClass();
@@ -105,7 +107,7 @@ function smartchoice_user_submit_response($formanswer, $choice, $cm) {
 
     $continueurl = new moodle_url('/mod/smartchoice/view.php', array('id' => $cm->id));
 
-    // No answers selected
+    // No answers selected.
     if (empty($formanswer)) {
         print_error('atleastoneoption', 'smartchoice', $continueurl);
     }
@@ -142,7 +144,7 @@ function prepare_smartchoice_show_results($choice, $course, $cm, $allresponses) 
     $display->coursemoduleid = $cm->id;
     $display->courseid = $course->id;
 
-    // Overwrite options value;
+    // Overwrite options value.
     $display->options = array();
     $totaluser = 0;
     foreach ($choice->option as $optionid => $optiontext) {
@@ -179,11 +181,11 @@ function get_smartchoiche_results_summary($results) {
         $usernumber = $userpercentage = '';
 
         if (!empty($option->user)) {
-           $numberofvotes = count($option->user);
+            $numberofvotes = count($option->user);
         }
 
-        if($results->numberofvotes > 0) {
-           $percentageamount = ((float)$numberofvotes / (float)$results->numberofvotes) * 100.0;
+        if ($results->numberofvotes > 0) {
+            $percentageamount = ((float)$numberofvotes / (float)$results->numberofvotes) * 100.0;
         }
 
         $summary[$optionid]['text'] = $option->text;
@@ -254,15 +256,16 @@ function smartchoice_get_choice($choiceid) {
     return false;
 }
 
-// Implementation of the function for printing the form elements that control whether the course reset functionality affects the choice.
+// Implementation of the function for printing the form elements
+// that control whether the course reset functionality affects the choice.
 function smartchoice_reset_course_form_definition(&$mform) {
     $mform->addElement('header', 'choiceheader', get_string('modulenameplural', 'smartchoice'));
-    $mform->addElement('advcheckbox', 'reset_choice', get_string('removeresponses','smartchoice'));
+    $mform->addElement('advcheckbox', 'reset_choice', get_string('removeresponses', 'smartchoice'));
 }
 
 // Course reset form defaults.
 function smartchoice_reset_course_form_defaults($course) {
-    return array('reset_choice'=>1);
+    return array('reset_choice' => 1);
 }
 
 // Implementation of the reset course functionality. Delete all the choice responses for course $data->courseid.
@@ -301,50 +304,73 @@ function smartchoice_get_response_data($choice) {
     return $allresponses;
 }
 
-// Defines the supported moodle functions
+// Defines the supported moodle functions.
 function smartchoice_supports($feature) {
     switch($feature) {
-        case FEATURE_GROUPS:                        return false;
-        case FEATURE_GROUPINGS:                     return false;
-        case FEATURE_MOD_INTRO:                     return false;
-        case FEATURE_COMPLETION_TRACKS_VIEWS:       return false;
-        case FEATURE_COMPLETION_HAS_RULES:          return false;
-        case FEATURE_GRADE_HAS_GRADE:               return false;
-        case FEATURE_GRADE_OUTCOMES:                return false;
-        case FEATURE_ADVANCED_GRADING:              return false;
-        case FEATURE_CONTROLS_GRADE_VISIBILITY:     return false;
-        case FEATURE_SHOW_DESCRIPTION:              return false;
-        case FEATURE_ADVANCED_GRADING:              return false;
-        case FEATURE_PLAGIARISM:                    return false;
-        case FEATURE_RATE:                          return false;
-        case FEATURE_IDNUMBER:                      return false;
-        case FEATURE_MODEDIT_DEFAULT_COMPLETION:    return false;
-        case FEATURE_BACKUP_MOODLE2:                return true;
-        default:                                    return null;
+        case FEATURE_GROUPS:
+            return false;
+        case FEATURE_GROUPINGS:
+            return false;
+        case FEATURE_MOD_INTRO:
+            return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return false;
+        case FEATURE_COMPLETION_HAS_RULES:
+            return false;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_ADVANCED_GRADING:
+            return false;
+        case FEATURE_CONTROLS_GRADE_VISIBILITY:
+            return false;
+        case FEATURE_SHOW_DESCRIPTION:
+            return false;
+        case FEATURE_ADVANCED_GRADING:
+            return false;
+        case FEATURE_PLAGIARISM:
+            return false;
+        case FEATURE_RATE:
+            return false;
+        case FEATURE_IDNUMBER:
+            return false;
+        case FEATURE_MODEDIT_DEFAULT_COMPLETION:
+            return false;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        default:
+            return null;
     }
 }
 
-// Extend activity navigation
+// Extend activity navigation.
 function smartchoice_extend_settings_navigation(settings_navigation $settings, navigation_node $choicenode) {
     global $PAGE;
 
     if (has_capability('mod/smartchoice:readresponses', $PAGE->cm->context)) {
         $choice = smartchoice_get_choice($PAGE->cm->instance);
-        $response_data = smartchoice_get_response_data($choice);
+        $responseData = smartchoice_get_response_data($choice);
         $responsecount = 0;
 
-        foreach($response_data as $optionid => $userlist) {
+        foreach ($responseData as $optionid => $userlist) {
             if ($optionid) {
                 $responsecount += count($userlist);
             }
         }
 
-        $choicenode->add(get_string('viewallresponses', 'smartchoice', $responsecount), new moodle_url('/mod/smartchoice/report.php', array('id' => $PAGE->cm->id)));
+        $choicenode->add(
+            get_string('viewallresponses', 'smartchoice', $responsecount),
+            new moodle_url('/mod/smartchoice/report.php', array('id' => $PAGE->cm->id))
+        );
     }
 
-    // Add reset button
+    // Add reset button.
     if (has_capability('mod/smartchoice:deleteresponses', $PAGE->cm->context)) {
-        $choicenode->add(get_string('resetchoice', 'smartchoice'), new moodle_url('/mod/smartchoice/view.php', array('id' => $PAGE->cm->id, 'action' => 'delete')));
+        $choicenode->add(
+            get_string('resetchoice', 'smartchoice'),
+            new moodle_url('/mod/smartchoice/view.php', array('id' => $PAGE->cm->id, 'action' => 'delete'))
+        );
     }
 }
 

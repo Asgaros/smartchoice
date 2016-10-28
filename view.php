@@ -17,7 +17,7 @@
 require_once("../../config.php");
 require_once("lib.php");
 
-$id         = required_param('id', PARAM_INT);                 // Course Module ID
+$id         = required_param('id', PARAM_INT);
 $action     = optional_param('action', '', PARAM_ALPHA);
 $notify     = optional_param('notify', '', PARAM_ALPHA);
 
@@ -51,15 +51,15 @@ list($choiceavailable, $warnings) = smartchoice_get_availability_status($choice)
 $PAGE->set_title($choice->name);
 $PAGE->set_heading($course->fullname);
 
-// Delete some responses
+// Delete some responses.
 if (has_capability('mod/smartchoice:deleteresponses', $context) && $action == 'delete') {
-    smartchoice_delete_responses($choice); //delete responses.
+    smartchoice_delete_responses($choice);
     redirect('view.php?id='.$cm->id);
 }
 
-// Submit any new data if there is any
+// Submit any new data if there is any.
 if (data_submitted() && confirm_sesskey()) {
-    // Check if multiple answers are activated and set answers
+    // Check if multiple answers are activated and set answers.
     if ($choice->allowmultiple) {
         $answer = optional_param_array('answer', array(), PARAM_INT);
     } else {
@@ -73,16 +73,26 @@ if (data_submitted() && confirm_sesskey()) {
 
     if ($answer) {
         smartchoice_user_submit_response($answer, $choice, $cm);
-        redirect(new moodle_url('/mod/smartchoice/view.php', array('id' => $cm->id, 'notify' => 'choicesaved', 'sesskey' => sesskey())));
+        redirect(
+            new moodle_url(
+                '/mod/smartchoice/view.php',
+                array('id' => $cm->id, 'notify' => 'choicesaved', 'sesskey' => sesskey())
+            )
+        );
     } else if (empty($answer) and $action === 'makechoice') {
-        redirect(new moodle_url('/mod/smartchoice/view.php', array('id' => $cm->id, 'notify' => 'mustchooseone', 'sesskey' => sesskey())));
+        redirect(
+            new moodle_url(
+                '/mod/smartchoice/view.php',
+                array('id' => $cm->id, 'notify' => 'mustchooseone', 'sesskey' => sesskey())
+            )
+        );
     }
 }
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(format_string($choice->name), 2, null);
 
-// Show notifications
+// Show notifications.
 if ($notify and confirm_sesskey()) {
     if ($notify === 'choicesaved') {
         echo $OUTPUT->notification(get_string('choicesaved', 'smartchoice'), 'notifysuccess');
@@ -91,18 +101,20 @@ if ($notify and confirm_sesskey()) {
     }
 }
 
-// Generate results link
-$response_data = smartchoice_get_response_data($choice);
+// Generate results link.
+$responseData = smartchoice_get_response_data($choice);
 
 if (has_capability('mod/smartchoice:readresponses', $context)) {
     $responsecount = 0;
-    foreach($response_data as $optionid) {
+    foreach ($responseData as $optionid) {
         if ($optionid) {
             $responsecount += count($optionid);
         }
     }
 
-    echo '<div class="reportlink"><a href="report.php?id='.$cm->id.'">'.get_string('viewallresponses', 'smartchoice', $responsecount).'</a></div>';
+    echo '<div class="reportlink">';
+    echo '<a href="report.php?id='.$cm->id.'">'.get_string('viewallresponses', 'smartchoice', $responsecount).'</a>';
+    echo '</div>';
 }
 
 echo '<div class="clearer"></div>';
@@ -128,9 +140,9 @@ if ($choice->timeclose != 0) {
     }
 }
 
-// Choice is open
+// Choice is open.
 if ($choiceopen && $choice->allowmoodlevoting) {
-    $options = smartchoice_prepare_options($choice, $response_data);
+    $options = smartchoice_prepare_options($choice, $responseData);
     $renderer = $PAGE->get_renderer('mod_smartchoice');
     echo $renderer->display_options($options, $cm->id, $choice->allowmultiple);
 } else {

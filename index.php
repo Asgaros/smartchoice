@@ -17,7 +17,7 @@
 require_once('../../config.php');
 require_once('lib.php');
 
-$id = required_param('id', PARAM_INT); // Course-ID
+$id = required_param('id', PARAM_INT);
 $PAGE->set_url('/mod/smartchoice/index.php', array('id' => $id));
 
 if (!$course = $DB->get_record('course', array('id' => $id))) {
@@ -42,8 +42,8 @@ $table->head  = array(get_string('question'));
 $table->align = array('left');
 
 foreach ($choices as $choice) {
-    $tt_href = '<a href="view.php?id='.$choice->coursemodule.'">'.format_string($choice->name, true).'</a>';
-    $table->data[] = array($tt_href);
+    $ttHref = '<a href="view.php?id='.$choice->coursemodule.'">'.format_string($choice->name, true).'</a>';
+    $table->data[] = array($ttHref);
 }
 
 echo html_writer::table($table);
