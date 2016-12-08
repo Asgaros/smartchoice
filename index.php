@@ -42,8 +42,8 @@ $table->head  = array(get_string('question'));
 $table->align = array('left');
 
 foreach ($choices as $choice) {
-    $ttHref = '<a href="view.php?id='.$choice->coursemodule.'">'.format_string($choice->name, true).'</a>';
-    $table->data[] = array($ttHref);
+    $tthref = '<a href="view.php?id='.$choice->coursemodule.'">'.format_string($choice->name, true).'</a>';
+    $table->data[] = array($tthref);
 }
 
 echo html_writer::table($table);

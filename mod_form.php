@@ -79,7 +79,7 @@ class mod_smartchoice_mod_form extends moodleform_mod {
         $this->add_action_buttons();
     }
 
-    public function data_preprocessing(&$defaultValues) {
+    public function data_preprocessing(&$defaultvalues) {
         global $DB;
         if (!empty($this->_instance) &&
             ($options = $DB->get_records_menu('smartchoice_options', array('choiceid' => $this->_instance), 'id', 'id,text'))
@@ -88,15 +88,15 @@ class mod_smartchoice_mod_form extends moodleform_mod {
             $options = array_values($options);
 
             foreach (array_keys($options) as $key) {
-                $defaultValues['option['.$key.']'] = $options[$key];
-                $defaultValues['optionid['.$key.']'] = $choiceids[$key];
+                $defaultvalues['option['.$key.']'] = $options[$key];
+                $defaultvalues['optionid['.$key.']'] = $choiceids[$key];
             }
 
         }
-        if (empty($defaultValues['timeopen'])) {
-            $defaultValues['timerestrict'] = 0;
+        if (empty($defaultvalues['timeopen'])) {
+            $defaultvalues['timerestrict'] = 0;
         } else {
-            $defaultValues['timerestrict'] = 1;
+            $defaultvalues['timerestrict'] = 1;
         }
 
     }

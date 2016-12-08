@@ -62,7 +62,7 @@ if (!$download) {
     echo $OUTPUT->heading($choice->name, 2, null);
 }
 
-$responseData = smartchoice_get_response_data($choice);
+$responsedata = smartchoice_get_response_data($choice);
 
 if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $context)) {
     require_once("$CFG->libdir/odslib.class.php");
@@ -76,8 +76,8 @@ if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $c
     $myxls->write_string(0, 0, get_string("smartchoice", "smartchoice"));
 
     $row = 1;
-    if ($responseData) {
-        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
+    if ($responsedata) {
+        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responsedata);
 
         if ($results) {
             $myxls->write_string($row, 0, format_string($results->name, true));
@@ -127,8 +127,8 @@ if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $c
     $myxls->write_string(0, 0, get_string('smartchoice', 'smartchoice'));
 
     $row = 1;
-    if ($responseData) {
-        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
+    if ($responsedata) {
+        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responsedata);
 
         if ($results) {
             $myxls->write_string($row, 0, format_string($results->name, true));
@@ -178,8 +178,8 @@ if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $c
 
     echo get_string("smartchoice", "smartchoice"). "\r\n\r\n";
 
-    if ($responseData) {
-        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
+    if ($responsedata) {
+        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responsedata);
 
         if ($results) {
             echo $results->name."\r\n";
@@ -199,12 +199,12 @@ if ($download == "ods" && has_capability('mod/smartchoice:downloadresponses', $c
     exit;
 }
 
-$results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
+$results = prepare_smartchoice_show_results($choice, $course, $cm, $responsedata);
 $renderer = $PAGE->get_renderer('mod_smartchoice');
 echo $renderer->display_publish_anonymous_vertical($results);
 
 // Generate download links.
-if (!empty($responseData) && has_capability('mod/smartchoice:downloadresponses', $context)) {
+if (!empty($responsedata) && has_capability('mod/smartchoice:downloadresponses', $context)) {
     $downloadoptions = array();
     $options = array();
     $options["id"] = "$cm->id";

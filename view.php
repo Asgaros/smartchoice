@@ -102,11 +102,11 @@ if ($notify and confirm_sesskey()) {
 }
 
 // Generate results link.
-$responseData = smartchoice_get_response_data($choice);
+$responsedata = smartchoice_get_response_data($choice);
 
 if (has_capability('mod/smartchoice:readresponses', $context)) {
     $responsecount = 0;
-    foreach ($responseData as $optionid) {
+    foreach ($responsedata as $optionid) {
         if ($optionid) {
             $responsecount += count($optionid);
         }
@@ -142,7 +142,7 @@ if ($choice->timeclose != 0) {
 
 // Choice is open.
 if ($choiceopen && $choice->allowmoodlevoting) {
-    $options = smartchoice_prepare_options($choice, $responseData);
+    $options = smartchoice_prepare_options($choice, $responsedata);
     $renderer = $PAGE->get_renderer('mod_smartchoice');
     echo $renderer->display_options($options, $cm->id, $choice->allowmultiple);
 } else {

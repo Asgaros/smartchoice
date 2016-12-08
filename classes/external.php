@@ -34,8 +34,8 @@ class mod_smartchoice_external extends external_api {
         $context = context_module::instance($cm->id);
         self::validate_context($context);
 
-        $responseData = smartchoice_get_response_data($choice);
-        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responseData);
+        $responsedata = smartchoice_get_response_data($choice);
+        $results = prepare_smartchoice_show_results($choice, $course, $cm, $responsedata);
 
         $options = array();
         foreach ($results->options as $optionid => $option) {
@@ -97,7 +97,7 @@ class mod_smartchoice_external extends external_api {
         $context = context_module::instance($cm->id);
         self::validate_context($context);
 
-        $responseData = smartchoice_get_response_data($choice);
+        $responsedata = smartchoice_get_response_data($choice);
 
         $timenow = time();
         $choiceopen = true;
@@ -117,7 +117,7 @@ class mod_smartchoice_external extends external_api {
         $optionsarray = array();
 
         if ($choiceopen) {
-            $options = smartchoice_prepare_options($choice, $responseData);
+            $options = smartchoice_prepare_options($choice, $responsedata);
 
             foreach ($options['options'] as $option) {
                 $optionarr = array();

@@ -350,10 +350,10 @@ function smartchoice_extend_settings_navigation(settings_navigation $settings, n
 
     if (has_capability('mod/smartchoice:readresponses', $PAGE->cm->context)) {
         $choice = smartchoice_get_choice($PAGE->cm->instance);
-        $responseData = smartchoice_get_response_data($choice);
+        $responsedata = smartchoice_get_response_data($choice);
         $responsecount = 0;
 
-        foreach ($responseData as $optionid => $userlist) {
+        foreach ($responsedata as $optionid => $userlist) {
             if ($optionid) {
                 $responsecount += count($userlist);
             }
