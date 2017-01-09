@@ -141,7 +141,7 @@ if ($choice->timeclose != 0) {
 }
 
 // Choice is open.
-if ($choiceopen && $choice->allowmoodlevoting) {
+if ($choiceopen && !$choice->webservicesvotingonly) {
     $options = smartchoice_prepare_options($choice, $responsedata);
     $renderer = $PAGE->get_renderer('mod_smartchoice');
     echo $renderer->display_options($options, $cm->id, $choice->allowmultiple);

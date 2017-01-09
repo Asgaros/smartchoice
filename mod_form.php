@@ -42,7 +42,7 @@ class mod_smartchoice_mod_form extends moodleform_mod {
 
         $mform->addElement('header', 'optionhdr', get_string('options', 'smartchoice'));
 
-        $mform->addElement('selectyesno', 'allowmoodlevoting', get_string('allowmoodlevoting', 'smartchoice'));
+        $mform->addElement('selectyesno', 'webservicesvotingonly', get_string('webservicesvotingonly', 'smartchoice'));
         $mform->addElement('selectyesno', 'allowmultiple', get_string('allowmultiple', 'smartchoice'));
 
         $repeatarray = array();

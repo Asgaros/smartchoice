@@ -26,7 +26,7 @@ class backup_smartchoice_activity_structure_step extends backup_activity_structu
         $choice = new backup_nested_element(
             'smartchoice',
             array('id'),
-            array('name', 'description', 'allowmultiple', 'allowmoodlevoting', 'timeopen', 'timeclose')
+            array('name', 'description', 'allowmultiple', 'webservicesvotingonly', 'timeopen', 'timeclose')
         );
 
         $options = new backup_nested_element('options');

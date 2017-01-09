@@ -37,6 +37,31 @@
 defined('MOODLE_INTERNAL') || die();
 
 function xmldb_smartchoice_upgrade($oldversion) {
+    global $DB;
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2017010900) {
+        // Define field allowmoodlevoting to be dropped from smartchoice.
+        $table = new xmldb_table('smartchoice');
+        $field = new xmldb_field('allowmoodlevoting');
+
+        // Conditionally launch drop field allowmoodlevoting.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+        // Define field webservicesvotingonly to be added to smartchoice.
+        $table = new xmldb_table('smartchoice');
+        $field = new xmldb_field('webservicesvotingonly', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'allowmultiple');
+
+        // Conditionally launch add field webservicesvotingonly.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Smartchoice savepoint reached.
+        upgrade_mod_savepoint(true, 2017010900, 'smartchoice');
+    }
 
     return true;
 }

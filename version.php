@@ -16,7 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016102800;
+$plugin->version   = 2017010900;
 $plugin->requires  = 2015111600;
 $plugin->component = 'mod_smartchoice';
 $plugin->maturity = MATURITY_STABLE;
